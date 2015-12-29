@@ -1,0 +1,26 @@
+mysql:
+        build: ./images/mysql
+        environment:
+                - MYSQL_ROOT_PASSWORD=docker
+                - MYSQL_USER=kuma
+                - MYSQL_PASSWORD=kuma
+                - MYSQL_DATABASE=kuma
+        ports:
+                - "3306:3306"
+
+psql:
+        image: postgres:9.4
+        environment:
+                - POSTGRES_PASSWORD=kuma
+                - POSTGRES_USER=kuma
+                - POSTGRES_DB=kuma
+        ports:
+                - "5432:5432"
+
+hub:
+        build: ./
+        volumes:
+                - ./data:/tmp/data
+        links:
+                - mysql
+                - psql

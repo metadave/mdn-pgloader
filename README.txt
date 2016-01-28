@@ -3,7 +3,7 @@ pgloader.
 
 Create docker machine:
 
-    docker-machine create --driver virtualbox --virtualbox-memory 2048 --virtualbox-disk-size 100000 pgloader
+    docker-machine create --driver virtualbox --virtualbox-memory 4096 --virtualbox-disk-size 100000 pgloader
 
 Configure environment settings:
 
@@ -24,8 +24,7 @@ in the 'pgloader/data/' folder:
 
     mysql --default-character-set=utf8 -h mysql -ukuma -pkuma kuma < /tmp/data/kuma.sql
 
-From the mysql shell, remove the custom collation which seems to break
-pgloader:
+From the mysql shell, remove the custom collation which seems to break pgloader:
 
     ALTER TABLE taggit_tag MODIFY name VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL;
     ALTER TABLE wiki_documenttag MODIFY name VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL;
@@ -34,5 +33,5 @@ pgloader:
 
 Once the kuma data is imported you can run pgloader:
 
-    pgloader -v command-file
+    ./build/bin/pgloader -v /root/command-file
 

@@ -1,17 +1,23 @@
-load database
-     from mysql://kuma:kuma@mysql/kuma
-     into postgresql://kuma:kuma@psql/kuma
+LOAD DATABASE
+     FROM mysql://kuma:kuma@mysql/kuma
+     INTO postgresql://kuma:kuma@psql/kuma
 
  WITH include drop, create tables, no truncate,
-      create indexes, reset sequences, foreign keys, batch rows = 100000, batch size = 500MB, batch concurrency = 10
+      create indexes, reset sequences, foreign keys,
+      -- Tweak these based on your constraints.
+      -- Defaults are: batch rows = 25000, batch size = 20MB, batch concurrency = 10
+      batch rows = 100, batch size = 10MB, batch concurrency = 10
 
-  SET maintenance_work_mem to '250MB', work_mem to '250MB', search_path to 'public'
+  SET TIMEZONE TO 'PST8PDT'
 
- CAST type datetime to timestamp
-                drop default drop not null using zero-dates-to-null,
+  SET maintenance_work_mem to '250MB',
+      work_mem to '250MB',
+      search_path to 'public'
+
+ CAST type datetime to timestamptz drop default drop not null using zero-dates-to-null,
       type date drop not null drop default using zero-dates-to-null
 
  DECODING TABLE NAMES MATCHING ~/.*/ AS utf8
 
  BEFORE LOAD DO
- $$ create schema if not exists public; $$;
+ $$ CREATE SCHEMA IF NOT EXISTS public; $$;

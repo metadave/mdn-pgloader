@@ -23,6 +23,8 @@ Once inside the "hub" container, import the kuma dump file that was placed
 in the 'pgloader/data/' folder:
 
     mysql --default-character-set=utf8 -h mysql -ukuma -pkuma kuma < /tmp/data/kuma.sql
+       or
+    zcat foo.sql.gz | mysql --default-character-set=utf8 -h mysql -ukuma -pkuma kuma
 
 From the mysql shell, remove the custom collation which seems to break pgloader:
 
@@ -33,5 +35,9 @@ From the mysql shell, remove the custom collation which seems to break pgloader:
 
 Once the kuma data is imported you can run pgloader:
 
+    psql -h psql -Ukuma kuma -c 'create schema kuma;'
     ./build/bin/pgloader -v /root/command-file
+
+
+
 

@@ -9,7 +9,7 @@ LOAD DATABASE
       batch rows = 100, batch size = 10MB, batch concurrency = 10
 
   SET TIMEZONE TO 'PST8PDT'
-
+  SET NAMES utf8
   SET maintenance_work_mem to '250MB',
       work_mem to '250MB',
       search_path to 'public'

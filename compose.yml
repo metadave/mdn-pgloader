@@ -7,6 +7,8 @@ mysql:
                 - MYSQL_DATABASE=kuma
         ports:
                 - "3306:3306"
+        volumes:
+                - ./mysql_conf:/etc/mysql/conf.d
 
 psql:
         image: postgres:9.4
